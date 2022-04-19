@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState , useReducer, lazy , Suspense } from "react";
+import "./App.css";
+
+const RiverInformation = lazy(() => import (/* webpackChunkName: "RiverInformation"
+*/ "../src/components/RiverInformation/RiverInformation.js"));
 
 function App() {
+  const [river, setRiver] = useState('nile');
+  const [show, toggle] = useReducer(state => !state, true);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="wrapper">
+      <h1>World's Longest Rivers</h1>
+      <div><button onClick={toggle}>Toggle Details</button></div>
+      <button onClick={() => setRiver('nile')}>Nile</button>
+      <button onClick={() =>setRiver("amazon")}>Amazon</button>
+      <button onClick={() =>setRiver("yangtze")}>Yangtze</button>
+      <button onClick={() =>setRiver("mississippi") }> Mississip</button>
+      <Suspense fallback={<div>Loading Component</div>}>
+      {show && <RiverInformation name={river} />}
+      </Suspense>
     </div>
   );
 }
